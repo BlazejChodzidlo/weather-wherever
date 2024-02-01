@@ -18,6 +18,10 @@ app.listen(port, () => {
     console.log("Server is working")
 })
 
+app.get('/', (req, res) => {
+    res.json('Hello world')
+});
+
 app.post('/location', async (req, res) => {
     const value = req.body.value
 
