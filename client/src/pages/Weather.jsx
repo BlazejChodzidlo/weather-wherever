@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import LocationKeyContext from '../context/locationKeyContext'
+import LocationKeyContext from '../context/LocationKeyContext'
 import TemperatureDegreesContext from '../context/TemperatureDegreesContext'
 import { ring } from 'ldrs'
 import { TypeAnimation } from 'react-type-animation'
