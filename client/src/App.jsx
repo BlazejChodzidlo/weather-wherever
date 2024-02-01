@@ -1,7 +1,7 @@
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import Search from './pages/Search'
 import Weather from './pages/Weather'
-import LocationKeyContext from './context/locationKeyContext'
+import LocationKeyContext from './context/LocationKeyContext'
 import TemperatureDegreesContext from "./context/TemperatureDegreesContext"
 import { useState } from 'react'
 import { useLocalStorage } from "@uidotdev/usehooks";
