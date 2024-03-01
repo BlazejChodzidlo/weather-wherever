@@ -1,13 +1,12 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState } from 'react'
-import { TypeAnimation } from 'react-type-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
 function Search({returnKey}) {
-  const [animationState, setAnimationState] = useState("load")
+  const [loaded, setLoaded] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [cities, setCities] = useState({})
   const navigate = useNavigate()
@@ -18,7 +17,8 @@ function Search({returnKey}) {
   }
 
   function onInput(e){
-    axios.post('https://weatherwherever-api.vercel.app/location', {value: e.target.value})
+    // axios.post('https://weatherwherever-api.vercel.app/location', {value: e.target.value})
+    axios.post('http://localhost:8000/location', {value: e.target.value})
     .then((res) => {
       setCities(res.data)
     })
@@ -30,11 +30,15 @@ function Search({returnKey}) {
     navigate(`/${city}`)
   }
 
+  function whenLoaded(){
+    setLoaded(prev => !prev)
+  }
+
   const imageOne = {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.5}
+      transition: {ease: 'ease', duration: 0.4, delay: 0}
     },
     hidden: {
       opacity: 0,
@@ -45,7 +49,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.7}
+      transition: {ease: 'ease', duration: 0.4, delay: 0.2}
     },
     hidden: {
       opacity: 0,
@@ -56,7 +60,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.9}
+      transition: {ease: 'ease', duration: 0.4, delay: 0.4}
     },
     hidden: {
       opacity: 0,
@@ -67,7 +71,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 1.1}
+      transition: {ease: 'ease', duration: 0.4, delay: 0.6}
     },
     hidden: {
       opacity: 0,
@@ -78,7 +82,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 1.3}
+      transition: {ease: 'ease', duration: 0.4, delay: 0.8}
     },
     hidden: {
       opacity: 0,
@@ -89,14 +93,14 @@ function Search({returnKey}) {
   return (
     <div className='w-full min-h-screen flex bg-gradient-to-b from-slate-700 to-slate-800'>
       <div className='w-full min-h-screen absolute grid grid-col-6 gap-5 p-5 opacity-45' style={{gridAutoRows: 'minmax(auto, auto)'}}>
-        <motion.div initial={{opacity: 0, transform: 'scale(0.98)'}} animate={{opacity: 1, transform: 'scale(1)'}} transition={{duration: 0.4, ease: 'ease' }} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/3', gridRow: '1/5', backgroundImage: 'url(/paris.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div initial={{opacity: 0, transform: 'scale(0.98)'}} animate={{opacity: 1, transform: 'scale(1)'}} transition={{duration: 0.4, ease: 'ease', delay: 0.2}} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/7', gridRow: '1/3', backgroundImage: 'url(/newyork.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div initial={{opacity: 0, transform: 'scale(0.98)'}} animate={{opacity: 1, transform: 'scale(1)'}} transition={{duration: 0.4, ease: 'ease', delay: 0.4}} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/5', gridRow: '3/5', backgroundImage: 'url(/warsaw.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div initial={{opacity: 0, transform: 'scale(0.98)'}} animate={{opacity: 1, transform: 'scale(1)'}} transition={{duration: 0.4, ease: 'ease', delay: 0.6}} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '5/7', gridRow: '3/7', backgroundImage: 'url(/london.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div initial={{opacity: 0, transform: 'scale(0.98)'}} animate={{opacity: 1, transform: 'scale(1)'}} transition={{duration: 0.4, ease: 'ease', delay: 0.8}} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/5', gridRow: '5/7', backgroundImage: 'url(/sydney.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
+        <motion.div variants={imageOne} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/3', gridRow: '1/5', backgroundImage: 'url(/paris.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img className='hidden' src={'https://unsplash.it/1200/310?random'} onLoad={() => whenLoaded()} onError={err => console.log('error', err)}/></motion.div>
+        <motion.div variants={imageTwo} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/7', gridRow: '1/3', backgroundImage: 'url(/newyork.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
+        <motion.div variants={imageThree} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/5', gridRow: '3/5', backgroundImage: 'url(/warsaw.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
+        <motion.div variants={imageFour} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '5/7', gridRow: '3/7', backgroundImage: 'url(/london.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
+        <motion.div variants={imageFive} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/5', gridRow: '5/7', backgroundImage: 'url(/sydney.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
       </div>
       <div className='z-10 relative w-full h-min-screen flex justify-center items-center flex-col' style={openDialog ? {display: 'none'} : {display: 'flex'}}>
-        <p className='text-slate-300 text-5xl mb-2 font-semibold font-mono 2xl:w-2/5 xl:w-2/5 lg:w-2/5 md:2/5 sm:w-3/5 w-10/12'><TypeAnimation sequence={["weather wherever", 1000, "weather everywhere", 1000, "the weather around you", 1000]} speed={15} repeat={Infinity}/></p>
+        <p className='text-slate-300 text-5xl mb-2 font-semibold font-mono 2xl:w-2/5 xl:w-2/5 lg:w-2/5 md:2/5 sm:w-3/5 w-10/12'>weather wherever</p>
         <input type='text' onFocus={() => setOpenDialog(prev => !prev)} placeholder='Find a city.' className='rounded-xl px-2 py-3 shadow 2xl:w-2/5 xl:w-2/5 lg:w-2/5 md:2/5 sm:w-3/5 w-10/12'/>
       </div>
       <motion.div onClick={clickOnBackdrop} key={openDialog} onAnimationComplete={() => {document.getElementById('citySearchInput').focus()}} initial={{opacity: 0}} animate={{opacity: 0.8}} transition={{duration: 0.5}} className='z-20 absolute w-full h-screen flex justify-start items-start flex-col bg-slate-300 opacity-80 py-20 2xl:px-48 xl:px-48 lg:px-48 md:px-32 sm:px-14 px-12' style={openDialog ? {display: 'flex'} : {display: 'none'}}>

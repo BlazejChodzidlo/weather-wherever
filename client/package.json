@@ -21,6 +21,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
+    "background-image-on-load": "^1.1.0",
     "framer-motion": "^11.0.3",
     "ldrs": "^1.0.1",
     "postcss": "^8.4.33",

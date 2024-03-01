@@ -11,6 +11,7 @@ import DegreesFormat from "../misc/DegreesFormat"
 import Forecast from '../components/Forecast'
 import Statistics from '../components/Statistics'
 import Details from '../components/Details'
+import { motion } from "framer-motion"
 ring.register()
 
 function Weather({returnDegrees}) {
@@ -23,7 +24,8 @@ function Weather({returnDegrees}) {
 
   useEffect(() => {
     if (locationParam !== null){
-      axios.post('https://weatherwherever-api.vercel.app/getWeather', {locationKey: locationKey, location: locationParam})
+      // axios.post('https://weatherwherever-api.vercel.app/getWeather', {locationKey: locationKey, location: locationParam})
+      axios.post('http://localhost:8000/getWeather', {locationKey: locationKey, location: locationParam})
       .then((res) => {
         setWeather(res.data.weather)
         setCity(res.data.city)
@@ -41,13 +43,49 @@ function Weather({returnDegrees}) {
     }
   }
 
+  const headerVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 0.2}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
+  const widgetOneVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 0.4}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
+  const widgetTwoVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 0.6}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
   return (
     <>
       {
         JSON.stringify(weather) !== '{}' && weather !== null && city !== null && JSON.stringify(city) !== '{}' ? 
         <div className={`w-full h-full min-h-screen bg-gradient-to-b ${weather.IsDayTime ? 'from-sky-500 to-sky-700' : 'from-cyan-900 to-cyan-950'}`}>
           <div className='container h-full min-h-screen flex flex-col p-2 gap-3'>
-            <div className='gap-1.5 flex flex-row'>
+            <motion.div className='gap-1.5 flex flex-row' variants={headerVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""}>
               <div className={`cursor-pointer aspect-square opacity-70 shadow-md py-2 px-2.5 flex items-center rounded-lg duration-75 ${weather.IsDayTime ? 'bg-sky-650 hover:bg-sky-700' : 'bg-cyan-800 hover:bg-cyan-700'}`} onClick={() => navigate('../')}>
                 <FontAwesomeIcon icon={faArrowLeft} size='2xl' color='white'/>
               </div>
@@ -58,10 +96,10 @@ function Weather({returnDegrees}) {
                 <span className='text-2xl font-bold text-white select-none'>{currentDegrees === 'c' ? Math.round(weather.Temperature.Metric.Value) : Math.round(weather.Temperature.Imperial.Value)}<DegreesFormat contextValue={currentDegrees} size={'text-2xl'}/></span>
                 <span className='mx-2 text-white text-2xl'><span className='font-semibold'>{city.LocalizedName}</span>, {city.AdministrativeArea.LocalizedName}, {city.Country.LocalizedName}</span>
               </div>
-            </div>
+            </motion.div>
             <div className='w-full flex 2xl:flex-row xl:flex-row lg:flex-col md:flex-col sm:flex-col flex-col gap-3 h-full'>
               <div className='2xl:w-2/5 xl:w-2/5 lg:w-full md:w-full sm:w-full w-full flex flex-col justify-start items-center'>
-                <div className={`opacity-70 relative w-full flex flex-col justify-center items-center shadow-md rounded-lg p-3 ${weather.IsDayTime ? 'bg-sky-650' : 'bg-cyan-800'}`}>
+                <motion.div variants={widgetOneVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""} className={`opacity-70 relative w-full flex flex-col justify-center items-center shadow-md rounded-lg p-3 ${weather.IsDayTime ? 'bg-sky-650' : 'bg-cyan-800'}`}>
                   <div className='flex flex-row justify-center items-center gap-4 relative z-10'>
                     <img src={`/icons/${weather.WeatherIcon}.svg`} alt={weather.WeatherText} className={`2xl:w-64 xl:w-64 lg:w-60 md:w-60 sm:w-60 w-60 aspect-square pointer-events-none select-none`}/>
                     <span className='2xl:text-9xl xl:text-8xl lg:text-8xl md:text-9xl sm:text-8xl text-8xl font-bold text-white select-none tracking-tighter'>{currentDegrees === 'c' ? Math.round(weather.Temperature.Metric.Value) : Math.round(weather.Temperature.Imperial.Value)}<DegreesFormat contextValue={currentDegrees} major={true}/></span>
@@ -69,8 +107,8 @@ function Weather({returnDegrees}) {
                   <span className='mx-2 text-white text-3xl relative z-10 text-center'><span className='font-semibold'>{city.LocalizedName}</span>, {city.AdministrativeArea.LocalizedName}, {city.Country.LocalizedName}</span>
                   <span className='text-2xl font-medium text-white relative z-10'>{weather.WeatherText}</span>
                   <div className={`opacity-50 w-full rounded-lg h-full absolute`} style={{backgroundImage: `url("/backgrounds/${weather.WeatherIcon}.jpg")`, backgroundSize: 'cover'}}></div>
-                </div>
-                <div className={`opacity-70 w-full flex flex-row items-center justify-around mt-3 shadow-md rounded-lg p-3 ${weather.IsDayTime ? 'bg-sky-650' : 'bg-cyan-800'}`}>
+                </motion.div>
+                <motion.div variants={widgetTwoVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""} className={`opacity-70 w-full flex flex-row items-center justify-around mt-3 shadow-md rounded-lg p-3 ${weather.IsDayTime ? 'bg-sky-650' : 'bg-cyan-800'}`}>
                     <div className='flex flex-col'>
                       <span className='text-slate-200'>Pressure</span>
                       <span className='text-white text-xl font-medium'>{currentDegrees === "c" ? `${weather.Pressure.Metric.Value}${weather.Pressure.Metric.Unit}` : `${weather.Pressure.Imperial.Value}${weather.Pressure.Imperial.Unit}`}</span>
@@ -83,8 +121,8 @@ function Weather({returnDegrees}) {
                       <div className='w-full'><span className='text-slate-200'>Wind</span><span className='text-white ml-3'>{weather.Wind.Direction.English}</span></div>
                       <span className='text-white text-xl font-medium'>{currentDegrees === "c" ? `${Math.round(weather.Wind.Speed.Metric.Value)} ${weather.Wind.Speed.Metric.Unit}` : `${Math.round(weather.Wind.Speed.Imperial.Value)} ${weather.Wind.Speed.Imperial.Unit}`}</span>
                     </div>
-                  </div>
-              </div>
+                </motion.div>
+            </div>
               <div className={`2xl:w-3/5 xl:w-3/5 lg:w-full md:w-full sm:w-full w-full flex flex-col justify-start items-center flex-grow`}>
                 <Statistics locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime} />
               </div>
