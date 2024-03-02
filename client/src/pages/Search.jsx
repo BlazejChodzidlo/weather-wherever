@@ -38,7 +38,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0}
+      transition: {ease: 'ease', duration: 0.5, delay: 0}
     },
     hidden: {
       opacity: 0,
@@ -49,7 +49,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.2}
+      transition: {ease: 'ease', duration: 0.5, delay: 0.3}
     },
     hidden: {
       opacity: 0,
@@ -60,7 +60,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.4}
+      transition: {ease: 'ease', duration: 0.5, delay: 0.6}
     },
     hidden: {
       opacity: 0,
@@ -71,7 +71,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.6}
+      transition: {ease: 'ease', duration: 0.5, delay: 0.9}
     },
     hidden: {
       opacity: 0,
@@ -82,7 +82,7 @@ function Search({returnKey}) {
     load: {
       opacity: 1,
       transform: 'scale(1)',
-      transition: {ease: 'ease', duration: 0.4, delay: 0.8}
+      transition: {ease: 'ease', duration: 0.5, delay: 1.2}
     },
     hidden: {
       opacity: 0,

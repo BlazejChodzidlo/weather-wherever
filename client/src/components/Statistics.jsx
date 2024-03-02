@@ -9,7 +9,6 @@ import {
 import axios from 'axios';
 import BarChart from './BarChart';
 import AreaChart from './AreaChart';
-import { motion } from "framer-motion"
 
 function Statistics({locationKey, degrees, timeOfDay}) {
     const [weather, setWeather] = useState({})
@@ -61,14 +60,14 @@ function Statistics({locationKey, degrees, timeOfDay}) {
         {
             JSON.stringify(weather) !== '{}' && weather !== null ?
             <div className='flex flex-col gap-3 h-full'>
-                <motion.TabList variant='solid' variants={widgetOneVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""}>
+                <TabList variant='solid'>
                     <Tab>Rain</Tab>
                     <Tab>Snow</Tab>
                     <Tab>Humidity</Tab>
                     <Tab>Wind</Tab>
                     <Tab>Cloud Cover</Tab>
-                </motion.TabList>
-                <motion.TabPanels variant='solid' variants={widgetOneVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""} className={`${timeOfDay ? 'bg-sky-650' : 'bg-cyan-800'} shadow-md rounded-lg h-full flex items-center`}>
+                </TabList>
+                <TabPanels variant='solid' className={`${timeOfDay ? 'bg-sky-650' : 'bg-cyan-800'} shadow-md rounded-lg h-full flex items-center`}>
                     <TabPanel>
                         <BarChart weather={weather.DailyForecasts} weatherType={'rain'} degrees={degrees}/>
                     </TabPanel>
@@ -84,7 +83,7 @@ function Statistics({locationKey, degrees, timeOfDay}) {
                     <TabPanel>
                         <AreaChart weather={weather.DailyForecasts} stat={'clouds_cover'} degrees={degrees}/>
                     </TabPanel>
-                </motion.TabPanels>
+                </TabPanels>
             </div>
             :
             <></>

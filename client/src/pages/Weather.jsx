@@ -79,6 +79,53 @@ function Weather({returnDegrees}) {
     }
   }
 
+  const widgetThreeVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 0.8}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+  const widgetFourVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 1}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
+  const widgetFiveVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 1.2}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
+  const widgetSixVariants = {
+    load: {
+      opacity: 1,
+      transform: 'scale(1)',
+      transition: {ease: 'ease', duration: 0.4, delay: 1.4}
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.98)'
+    }
+  }
+
   return (
     <>
       {
@@ -123,18 +170,22 @@ function Weather({returnDegrees}) {
                     </div>
                 </motion.div>
             </div>
-              <div className={`2xl:w-3/5 xl:w-3/5 lg:w-full md:w-full sm:w-full w-full flex flex-col justify-start items-center flex-grow`}>
+              <motion.div variants={widgetThreeVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""} className={`2xl:w-3/5 xl:w-3/5 lg:w-full md:w-full sm:w-full w-full flex flex-col justify-start items-center flex-grow`}>
                 <Statistics locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime} />
-              </div>
+              </motion.div>
             </div>
-            <span className='text-white font-semibold opacity-75'>Five-day forecast</span>
-            <Forecast locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime}/>
-            <span className='text-white font-semibold opacity-75'>Details of the day</span>
-            <Details locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime} />
-            <div className='w-full flex flex-row opacity-70 items-center'>
+            <motion.div className='flex flex-col' variants={widgetFourVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""}>
+              <span className='text-white font-semibold opacity-75'>Five-day forecast</span>
+             <Forecast locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime}/>
+            </motion.div>
+            <motion.div className='flex flex-col' variants={widgetFiveVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""}>
+              <span className='text-white font-semibold opacity-75'>Details of the day</span>
+              <Details locationKey={city.Key} degrees={currentDegrees} timeOfDay={weather.IsDayTime} />
+            </motion.div>
+            <motion.div className='w-full flex flex-row opacity-70 items-center' variants={widgetSixVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""}>
               <div className='text-white text-sm'>© Błażej Chodzidło</div>
               <div className='flex-grow flex flex-row-reverse'><img src="/accuweather.png" className='h-4' alt='accu-weather logo' /></div>
-            </div>
+            </motion.div>
           </div>
         </div>
         :
