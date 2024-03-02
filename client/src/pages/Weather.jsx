@@ -24,8 +24,7 @@ function Weather({returnDegrees}) {
 
   useEffect(() => {
     if (locationParam !== null){
-      // axios.post('https://weatherwherever-api.vercel.app/getWeather', {locationKey: locationKey, location: locationParam})
-      axios.post('http://localhost:8000/getWeather', {locationKey: locationKey, location: locationParam})
+      axios.post('https://weatherwherever-api.vercel.app/getWeather', {locationKey: locationKey, location: locationParam})
       .then((res) => {
         setWeather(res.data.weather)
         setCity(res.data.city)

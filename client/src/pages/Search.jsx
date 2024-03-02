@@ -17,8 +17,7 @@ function Search({returnKey}) {
   }
 
   function onInput(e){
-    // axios.post('https://weatherwherever-api.vercel.app/location', {value: e.target.value})
-    axios.post('http://localhost:8000/location', {value: e.target.value})
+    axios.post('https://weatherwherever-api.vercel.app/location', {value: e.target.value})
     .then((res) => {
       setCities(res.data)
     })

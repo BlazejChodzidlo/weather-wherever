@@ -22,8 +22,7 @@ function Statistics({locationKey, degrees, timeOfDay}) {
             else {
                 metric = false
             }
-            // axios.post('https://weatherwherever-api.vercel.app/forecast5days', {locationKey: locationKey, metric: metric})
-            axios.post('http://localhost:8000/forecast5days', {locationKey: locationKey, metric: metric})
+            axios.post('https://weatherwherever-api.vercel.app/forecast5days', {locationKey: locationKey, metric: metric})
             .then((res) => {
                 setWeather(res.data)
             })
