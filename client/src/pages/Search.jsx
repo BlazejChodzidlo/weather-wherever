@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
 function Search({returnKey}) {
-  const [loaded, setLoaded] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [cities, setCities] = useState({})
   const navigate = useNavigate()
@@ -29,8 +28,11 @@ function Search({returnKey}) {
     navigate(`/${city}`)
   }
 
-  function whenLoaded(){
-    setLoaded(prev => !prev)
+  function whenLoaded(e){
+    const id = e.target.id.substring(0, e.target.id.lastIndexOf('-'))
+    const source = e.target.src.substring(e.target.src.lastIndexOf('/'))
+    document.getElementById(id).style.backgroundImage = `url(${source})`
+    document.getElementById(id).style.transition = "background-image 200ms ease-in-out"
   }
 
   const imageOne = {
@@ -92,11 +94,11 @@ function Search({returnKey}) {
   return (
     <div className='w-full min-h-screen flex bg-gradient-to-b from-slate-700 to-slate-800'>
       <div className='w-full min-h-screen absolute grid grid-col-6 gap-5 p-5 opacity-45' style={{gridAutoRows: 'minmax(auto, auto)'}}>
-        <motion.div variants={imageOne} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/3', gridRow: '1/5', backgroundImage: 'url(/paris.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img className='hidden' src={'https://unsplash.it/1200/310?random'} onLoad={() => whenLoaded()} onError={err => console.log('error', err)}/></motion.div>
-        <motion.div variants={imageTwo} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/7', gridRow: '1/3', backgroundImage: 'url(/newyork.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div variants={imageThree} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/5', gridRow: '3/5', backgroundImage: 'url(/warsaw.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div variants={imageFour} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '5/7', gridRow: '3/7', backgroundImage: 'url(/london.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
-        <motion.div variants={imageFive} initial="hidden" animate={loaded ? "load" : ""} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/5', gridRow: '5/7', backgroundImage: 'url(/sydney.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}></motion.div>
+        <motion.div id="image-1" variants={imageOne} initial="hidden" animate={"load"} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/3', gridRow: '1/5', backgroundImage: 'url(/small-paris.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img id='image-1-loader' className='hidden' src={'/paris.jpg'} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></motion.div>
+        <motion.div id="image-2" variants={imageTwo} initial="hidden" animate={"load"} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/7', gridRow: '1/3', backgroundImage: 'url(/small-newyork.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img id='image-2-loader' className='hidden' src={'/newyork.jpg'} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></motion.div>
+        <motion.div id="image-3" variants={imageThree} initial="hidden" animate={"load"} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '3/5', gridRow: '3/5', backgroundImage: 'url(/small-warsaw.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img id='image-3-loader' className='hidden' src={'/london.jpg'} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></motion.div>
+        <motion.div id="image-4" variants={imageFour} initial="hidden" animate={"load"} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '5/7', gridRow: '3/7', backgroundImage: 'url(/small-london.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img id='image-4-loader' className='hidden' src={'/warsaw.jpg'} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></motion.div>
+        <motion.div id="image-5" variants={imageFive} initial="hidden" animate={"load"} layout className='rounded-lg bg-slate-600 shadow-lg' style={{gridColumn: '1/5', gridRow: '5/7', backgroundImage: 'url(/small-sydney.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}><img id='image-5-loader' className='hidden' src={'/sydney.jpg'} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></motion.div>
       </div>
       <div className='z-10 relative w-full h-min-screen flex justify-center items-center flex-col' style={openDialog ? {display: 'none'} : {display: 'flex'}}>
         <p className='text-slate-300 text-5xl mb-2 font-semibold font-mono 2xl:w-2/5 xl:w-2/5 lg:w-2/5 md:2/5 sm:w-3/5 w-10/12'>weather wherever</p>
