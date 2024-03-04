@@ -5,6 +5,20 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
+export function whenLoaded(e){
+  const id = e.target.id.substring(0, e.target.id.lastIndexOf('-'))
+  const source = e.target.src.substring(e.target.src.lastIndexOf('/'))
+
+  if (id === "image-weather"){
+    document.getElementById(id).style.backgroundImage = `url(/backgrounds/${source})`
+    document.getElementById(id).style.transition = "background-image 200ms ease-in-out"
+  }
+  else {
+    document.getElementById(id).style.backgroundImage = `url(${source})`
+    document.getElementById(id).style.transition = "background-image 200ms ease-in-out"
+  }
+}
+
 function Search({returnKey}) {
   const [openDialog, setOpenDialog] = useState(false)
   const [cities, setCities] = useState({})
@@ -26,13 +40,6 @@ function Search({returnKey}) {
   function changePage(city, key){
     returnKey(key)
     navigate(`/${city}`)
-  }
-
-  function whenLoaded(e){
-    const id = e.target.id.substring(0, e.target.id.lastIndexOf('-'))
-    const source = e.target.src.substring(e.target.src.lastIndexOf('/'))
-    document.getElementById(id).style.backgroundImage = `url(${source})`
-    document.getElementById(id).style.transition = "background-image 200ms ease-in-out"
   }
 
   const imageOne = {

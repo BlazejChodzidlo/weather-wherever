@@ -12,6 +12,7 @@ import Forecast from '../components/Forecast'
 import Statistics from '../components/Statistics'
 import Details from '../components/Details'
 import { motion } from "framer-motion"
+import { whenLoaded } from "./Search"
 ring.register()
 
 function Weather({returnDegrees}) {
@@ -24,7 +25,7 @@ function Weather({returnDegrees}) {
 
   useEffect(() => {
     if (locationParam !== null){
-      axios.post('https://weatherwherever-api.vercel.app/getWeather', {locationKey: locationKey, location: locationParam})
+      axios.post('http://localhost:8000/getWeather', {locationKey: locationKey, location: locationParam})
       .then((res) => {
         setWeather(res.data.weather)
         setCity(res.data.city)
@@ -152,7 +153,7 @@ function Weather({returnDegrees}) {
                   </div>
                   <span className='mx-2 text-white text-3xl relative z-10 text-center'><span className='font-semibold'>{city.LocalizedName}</span>, {city.AdministrativeArea.LocalizedName}, {city.Country.LocalizedName}</span>
                   <span className='text-2xl font-medium text-white relative z-10'>{weather.WeatherText}</span>
-                  <div className={`opacity-50 w-full rounded-lg h-full absolute`} style={{backgroundImage: `url("/backgrounds/${weather.WeatherIcon}.jpg")`, backgroundSize: 'cover'}}></div>
+                  <div id='image-weather' className={`opacity-50 w-full rounded-lg h-full absolute`} style={{backgroundImage: `url("/backgrounds/small-${weather.WeatherIcon}.jpg")`, backgroundSize: 'cover'}}><img id='image-weather-loader' className='hidden' src={`/backgrounds/${weather.WeatherIcon}.jpg`} onLoad={(e) => whenLoaded(e)} onError={err => console.log('error', err)}/></div>
                 </motion.div>
                 <motion.div variants={widgetTwoVariants} initial="hidden" animate={JSON.stringify(weather) !== '{}' ? "load" : ""} className={`opacity-70 w-full flex flex-row items-center justify-around mt-3 shadow-md rounded-lg p-3 ${weather.IsDayTime ? 'bg-sky-650' : 'bg-cyan-800'}`}>
                     <div className='flex flex-col'>
